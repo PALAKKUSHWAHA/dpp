@@ -1,0 +1,2033 @@
+DSA PEP 
+day1
+
+https://codeforces.com/contest/680/problem/B
+SOLUTION 
+Bear and criminal
+#include <bits/stdC++.h>
+using namespace std;
+int main(){
+    int n,a;
+    cin>>n;
+    cin>>a;
+    vector<int>v(n,0);
+    for(int i=1; i<=n; i++){
+        int d;
+        cin>>d;
+        v[i] = d;
+    }
+    int leftCity = a-1;
+    int rightCity = a+1;
+    int criminal = 0;
+    if(v[a-1]) criminal++;
+    while(leftCity > 0 && rightCity <= v.size()){
+        if(v[leftCity] && v[rightCity]) criminal++;
+        leftCity--;
+        rightCity++;
+    }
+    while(leftCity > 0){
+        if(v[leftCity]) criminal++;
+        leftCity--;
+    }
+    while(rightCity <= v.size()){
+        if(v[rightCity])criminal++;
+        rightCity++;
+    }
+    cout<<criminal;
+}
+
+ORRRRR
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n,a;
+    cin>>a;
+    cin>>n;
+    a--;
+    vector<int> v(n);
+    for(int i=0;i<n;i++){
+        cin >> v[i];
+        
+    }
+    int ans=0;
+    if(v[a]==1) ans++;
+    return 0;
+}
+int start = a + 1, end = a - 1;
+while (start>=0 && end>= n-1){
+    if(v[start]+ v[end] == 2) ans+=2;
+    start--;
+    end++;
+}
+while (start >=0){
+    if (v[start] ==1) ans++;
+    start--;
+    
+}
+while(end <=n-1){
+    if (v[end] ==1) ans++;
+    end++;
+}
+
+day2
+https://codeforces.com/problemset/problem/727/A
+https://leetcode.com/problems/subsets/description/
+https://leetcode.com/problems/subsets/description/
+
+day3
+https://leetcode.com/problems/subsets/
+https://codeforces.com/problemset/problem/727/A
+HW:
+https://leetcode.com/problems/generate-parentheses/description/
+
+https://codeforces.com/problemset/problem/727/A
+
+https://leetcode.com/problems/combination-sum/description/
+
+https://www.hackerrank.com/contests/gl-bajaj-self-evaluation-evening-batch/challenges/bracket-challenge-1/problem
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    long long a, b;
+    cin >> a >> b; // Read the input values for a and b
+
+    vector<long long> sequence; // Vector to store the transformation sequence
+    long long current = b; // Start from b and work backwards
+
+    // Loop until we reach a or current is less than a
+    while (current >= a) {
+        sequence.push_back(current); // Add current to the sequence
+        
+        // Check if current is even and can be divided by 2
+        if (current % 2 == 0) {
+            current /= 2; // Reverse the multiplication by 2
+        } 
+        // Check if current ends with 1, meaning it could have been formed by appending 1
+        else if (current % 10 == 1) {
+            current = (current - 1) / 10; // Reverse the append operation
+        } 
+        // If neither condition is met, break out of the loop
+        else {
+            break;
+        }
+    }
+
+    // Check if we have reached a
+    if (current == a) {
+        cout << "YES" << endl; // Output YES
+        cout << sequence.size() << endl; // Output the length of the sequence
+        
+        // Since we've built the sequence backwards, we need to reverse it for output
+        reverse(sequence.begin(), sequence.end());
+        
+        // Output the transformation sequence
+        for (long long num : sequence) {
+            cout << num << " ";
+        }
+        cout << endl;
+    } else {
+        cout << "NO" << endl; // Output NO if transformation is not possible
+    }
+
+    return 0;
+}
+
+
+https://codeforces.com/contest/680/problem/B
+https://codeforces.com/problemset/problem/727/A
+https://leetcode.com/problems/combination-sum/description/
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+        int n,a;
+        cin>>n>>a;
+        a--; // make a 0 indexed
+        vector<int> v(n);
+        for(int i =0;i<n;i++){
+                cin>>v[i];
+        }
+        int ans = 0;
+        if(v[a] == 1) ans++; // checking if city a had the criminal
+        
+        // loop 1 -> maintaining start and end at equidistance from a
+        
+        int start = a-1, end = a+1;
+        while(start >= 0 && end <= n-1 ){
+                if(v[start] + v[end] == 2) ans+=2;
+                start--;
+                end++;
+        }
+        
+        // loop 2 -> taking start to 0
+        
+        while(start >=0){
+                if(v[start] == 1) ans++;
+                start --;
+        }
+        
+        //loop 3 -> taking end to n-1
+        
+        while(end <= n-1){
+                if(v[end] == 1) ans++;
+                end++;
+        }
+        
+        
+        cout<<ans<<endl;
+        
+        return 0;
+}
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// we are converting b to a
+// if b is even -> b/=2
+// if b is odd -> if 1 is last digit -> b/=10
+// for function -> base condition 1 -> when a == b -> true
+// base condition 2 -> b < a -> false
+// base condition 3 -> last digit of b is 3,5,7,9
+
+vector<int> ans;
+
+void transform( int a, int b){
+    ans.push_back(b);
+    if( b == a ){
+        return;
+    }
+    if( b < a) {
+        return;
+    }
+    if( b % 10 == 3 || b % 10 == 5 || b % 10 == 7 || b % 10 == 9 ){
+        return;
+    }
+    if(b % 2 == 0){
+        transform(a,b/2);
+    }else{
+        transform(a,b/10);
+    }
+    return;
+
+}
+
+int32_t main() {
+ 
+    int a,b;
+    cin>>a>>b;
+    transform(a,b);
+    if(ans[ans.size()-1] != a){
+        cout<<"NO"<<endl;
+    }else{
+        cout<<"YES"<<endl;
+        cout<<ans.size()<<endl;
+        for(int i =ans.size()-1;i>=0;i--){
+            cout<<ans[i]<<" ";
+        }
+    }
+
+    
+    
+ 
+    return 0;
+}
+
+
+
+
+
+LEETCODE 17
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+
+// make an answer vector
+// base condition -> reaching the end of digits -> push the cs in the answer
+// when at index i -> iterate over all the choices of digits[i]
+// pick one choice and move to i+1
+// when out of recursion pop the choice 
+
+
+
+
+
+
+
+https://leetcode.com/problems/generate-parentheses/description/
+
+
+https://leetcode.com/problems/powx-n/description/
+
+https://leetcode.com/problems/permutations/description/
+
+
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+
+
+https://leetcode.com/problems/subsets/
+class Solution {
+// recursive function which contains index
+// when index reaches the end -> push it in ans
+// when I am at an index -> 2 choices take and not take
+// take -> push the item in cs move to index + 1, when out of recursion pop it from current state 
+// then I go to index + 1
+
+
+public:
+    vector<vector<int>> ans;
+    void generate(int index, vector<int> &nums, vector<int> &cs){
+        if(index == nums.size()){
+            ans.push_back(cs);
+            return;
+        }
+        cs.push_back(nums[index]);
+        generate(index+1, nums, cs);
+        cs.pop_back();
+        generate(index+1, nums, cs);
+        return;
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> cs;
+        generate(0, nums,cs);
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+
+class Solution {
+// make an answer vector
+// base condition -> reaching the end of digits -> push the cs in the answer
+// when at index i -> iterate over all the choices of digits[i]
+// pick one choice and move to i+1
+// when out of recursion pop the choice
+//digits[i] -> character not integer -> '0'/'1' -> convert it into integer 
+//subtract '0' from it
+
+
+public:
+    vector <string> v{"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    vector<string> ans;
+    void generate(int index, string &digits, string &cs){
+        if(index == digits.size()){
+            // cout<<cs<<" ";
+            ans.push_back(cs);
+            return;
+        }
+        int digit = digits[index] - '0';
+        string choices = v[digit];
+        for(int i =0;i<choices.size();i++){
+            cs+=choices[i];
+            generate(index + 1, digits, cs);
+            cs.pop_back();
+        }
+        return;
+
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits == "") return {};
+        string cs = "";
+        generate(0, digits, cs);
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/permutations/description/
+
+class Solution {
+
+// Create an answer vector
+// base conditions -> when index is at end -> terminate the recursion/return
+//when I am at index i -> provide it with all the choices from i to size()-1
+//use swap -> every ith index to every number from i to n-1 (size -1)
+// I move forward to i+1
+// Basically fix index i with diff choices
+
+public:
+    vector<vector<int>> ans;
+    void generate(vector<int> &nums, int index){
+
+        if(index == nums.size()){
+            ans.push_back(nums);
+            return;
+        }
+        for(int i = index;i<nums.size();i++){
+            swap(nums[index], nums[i]);
+            generate(nums,index+1);
+            swap(nums[index],nums[i]);
+        }
+        return;
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        generate(nums,0);
+        return ans;
+    }
+};
+
+
+https://leetcode.com/problems/generate-parentheses/
+class Solution {
+// maintain number of opening and closing brackets
+// base condition 1 -> if both are 0 -> reached end with correct sequence -> push it answer
+// base condition 2 -> when number of closing brackets(to put) > opening brackets -> return because false sequence
+// if opening bracket count != 0 put opening bracket in cs and move forward
+// if closing bracket count != 0 put closing bracket in cs and move forward
+
+public:
+    vector<string> ans;
+    void generate(int opening, int closing, string &cs){
+        if(opening == 0 && closing == 0){
+            ans.push_back(cs);
+            return;
+        }
+        if(closing < opening){
+            return; // this is the false state or incorrect state
+        }
+        if(opening > 0){
+            cs+='(';
+            generate(opening -1, closing, cs);
+            cs.pop_back();
+        }
+        if(closing > 0){
+            cs+=')';
+            generate(opening , closing-1, cs);
+            cs.pop_back();
+        }
+        return;
+    }
+    vector<string> generateParenthesis(int n) {
+        string cs = "";
+        generate(n,n,cs);
+        return ans;
+    }
+};
+
+
+
+https://leetcode.com/problems/powx-n/description/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+int n;
+cin>>n;
+vector<int>arr1(n+1);
+vector<int>arr2(n+1);
+for(int i =0;i<n;i++){
+cin>>arr1[i];
+}
+arr1.push_back(INT_MAX);
+for(int i =0;i<n+1;i++){
+cin>>arr2[i];
+}
+
+int start=0,end=n;
+
+while(start<end){
+int mid=start+(end-start)/2;
+if(arr1[mid]==arr2[mid]){
+start=mid+1;
+}
+else{
+end=mid;
+}
+}
+cout<<end<<","<<endl;
+
+
+
+
+return 0;
+}
+
+
+https://www.codechef.com/problems/WECNITK
+
+
+#include <bits/stdc++.h>
+using namespace std;
+void solve() {
+    
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
+
+
+https://leetcode.com/problems/find-minimum-inclass 
+
+
+
+
+Solution {
+// s -> 0 and e -> n-1
+// m is found
+// if nums[m] < nums[end] -> e = m
+// else -> s = m+1 
+// return s or e -> nums[s]
+public:
+    int findMin(vector<int>& nums) {
+        int s = 0, e = nums.size()-1;
+        while(s < e){
+            int m = s + (e-s)/2;
+            if(nums[m] < nums[e]){
+                e = m;
+            }else{
+                s = m+1;
+            }
+        }
+        return nums[s];
+    }
+};
+
+
+
+https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+
+
+class Solution {
+// s -> 0 and e -> n-1
+// m is found
+// if nums[m] < nums[end] -> e = m
+// else -> s = m+1 
+// return s or e
+// pivot is returned from the above function
+// new start and end -> for simple binary search
+// target <= nums[end] -> s = pivot
+// else -> end = pivot - 1
+// apply simple binary search return ans 
+// return m if found
+// return -1 out of loop 
+public:
+    int findMin(vector<int>& nums) {
+        int s = 0, e = nums.size()-1;
+        while(s < e){
+            int m = s + (e-s)/2;
+            if(nums[m] < nums[e]){
+                e = m;
+            }else{
+                s = m+1;
+            }
+        }
+        return s;
+    }
+    int search(vector<int>& nums, int target) {
+        int pivot = findMin(nums);
+        int s = 0, e =  nums.size() - 1;
+        if(target <= nums[e]){
+            s = pivot;
+        }else{
+            e = pivot - 1;
+        }
+        while(s <= e){
+            int m = s + (e-s)/2;
+            if(nums[m] == target){
+                return m;
+            }
+            if(nums[m] > target){
+                e = m-1;
+            }else{
+                s = m+1;
+            }
+        }
+        return -1;
+    }
+};
+
+
+
+
+class Solution {
+// s = 0 e = n-1
+// define mid;
+// if mid == target -> return mid;
+// if mid < nums[e] (left array) -> target is between mid -> e
+// if between mid -> e ->s = mid+1
+// else e = mid - 1;
+// if mid > nums[e] (right array) -> target is between s and mid;
+// if between s and mid -> e = mid - 1;
+// else s = mid+1
+public:
+    int search(vector<int>& nums, int target) {
+        int s = 0, e = nums.size() - 1;
+        while(s <= e){
+            int mid = s + (e-s)/2;
+            if(nums[mid] == target){
+                return mid;
+            }
+            if(nums[mid] < nums[e]){
+                if(target >= nums[mid] && target <= nums[e]){
+                    s = mid+1;
+                }else{
+                    e = mid -1;
+                }
+            }else{
+                if(target >= nums[s] && target <= nums[mid]){
+                    e = mid -1;
+                }else{
+                    s = mid+1;
+                }
+            }
+        }
+        return -1;
+    }
+};
+
+
+
+https://leetcode.com/problems/find-peak-element/description/
+
+day 12
+https://leetcode.com/problems/find-peak-element/
+class Solution {
+// binary search
+// find m 
+// if m < m+1 -> m+1 is PA -> s = m+1
+// else -> m is PA -> e = m
+// return s or e
+public:
+    int findPeakElement(vector<int>& nums) {
+        int s = 0, e = nums.size() - 1;
+        while(s < e){
+            int m = s + (e-s)/2;
+            if(nums[m] < nums[m+1]){
+                s = m+1;
+            }else{
+                e = m;
+            }
+        }
+        return s;
+    }
+};
+
+
+
+
+
+https://leetcode.com/problems/sqrtx/
+
+class Solution {
+// range 0 to x
+// mid
+// if mid * mid == x -> return mid;
+// if mid * mid > x -> e = m-1
+// else ->  s = m+1
+// return e
+public:
+    int mySqrt(long long x) { // 10^9 -> mid = 10^ 6 -> 10 ^ 12
+        long long s = 0, e = x;
+        while(s <= e){
+            long long m = s + (e-s)/2;
+            if(m * m == x){
+                return m;
+            }
+            if( m * m > x){
+                e = m-1;
+            }else{
+                s = m+1;
+            }
+        }
+        return e;
+    }
+};
+
+
+
+problem: I had n cards with attack and defence. Print atk and def of cards sorted by atk first then sorted by def first
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool comparitor(pair<int,int> a, pair<int,int> b){
+    return a.second < b.second;
+}
+int main() {
+        // your code goes here
+    int n;
+    cin>>n;
+    vector<pair<int,int>> v(n);
+    for(int i =0;i<n;i++){
+        cin>>v[i].first>>v[i].second;
+    }
+    sort(v.begin(),v.end());
+    
+    for(int i =0;i<n;i++){
+        cout<<v[i].first<<" "<<v[i].second<<endl;
+    }
+    
+    cout<<endl<<endl<<endl;
+    sort(v.begin(),v.end(), comparitor);
+    for(int i =0;i<n;i++){
+        cout<<v[i].first<<" "<<v[i].second<<endl;
+    }
+    cout<<endl;
+    
+}
+
+
+
+https://leetcode.com/problems/custom-sort-string/description/
+
+
+class Solution {
+// comparitor lambda ->
+// initialize index a and b with INT_MAX
+// find index a and index b
+// return index a < index b
+public:
+    string customSortString(string order, string s) {
+        sort(s.begin(),s.end(),[&](char a, char b){
+            int indexA=INT_MAX, indexB = INT_MAX;
+            for(int i =0;i<order.size();i++){
+                if(order[i] == a){
+                    indexA = i;
+                }
+                if(order[i] == b){
+                    indexB = i;
+                }
+            }
+            return indexA < indexB;
+        });
+        return s;
+    }
+
+};
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+int main() 
+{ 
+    queue <int> q; 
+    q.push(2); 
+    q.push(3); 
+    q.push(5); 
+    q.push(8);
+    q.pop();
+    q.pop();
+    cout << q.front() <<endl;
+    cout<< q.back() << endl;
+       
+   
+    
+  
+    return 0; 
+} 
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Queue
+{
+    int head, tail;
+    int arr[1000];
+    Queue(){
+        head = -1; tail= -1;
+    }
+   void push(int data) {
+    if (head == -1) { 
+        head = 0;
+        tail = 0;
+        arr[head] = data;
+        return;
+    }
+    if ((tail + 1) % 1000 == head) { 
+        cout << "Queue full" << endl;
+        return;
+    }
+    
+    tail = (tail + 1) % 1000; 
+    arr[tail] = data;
+}
+
+    int front(){
+        if (head==-1){
+            return -1;
+        }
+        return arr[head];
+    }
+    int back(){
+        if (head == -1){
+            return -1;
+        }
+        return arr[tail];
+    }
+    bool empty(){
+        if(head == -1)
+        return true;
+        return false;
+    }
+};
+
+int main(){
+    int head, tail;{
+        
+        return 0;
+    }
+}
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+   
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+
+bool dfs(Node* node, int val) {
+    if (node == nullptr) { 
+        return false;
+    }
+    if (node->data == val) {  
+        return true;
+    }
+    
+    return dfs(node->left, val) || dfs(node->right, val);
+}
+
+int main() {
+    
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->right->left = new Node(5);
+    root->right->right = new Node(6);
+    root->right->left->left = new Node(7);
+    root->right->left->right = new Node(8);
+
+    
+    int val = 5;
+    if (dfs(root, val)) {
+        cout << "Value " << val << " found in the tree!" << endl;
+    } else {
+        cout << "Value " << val << " not found in the tree!" << endl;
+    }
+
+    return 0;
+}
+
+BFS AND DFS on TREES
+
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+class Node {
+    public: int data;
+    Node * left;
+    Node * right;
+    Node(int data){
+        this->data = data;
+        left = nullptr,
+        right = nullptr;
+    }    
+};
+bool dfs(Node * root, int val) {
+    if (!root) {
+        return false;
+    }
+    cout << root -> data << " ";
+    if (root -> data == val) {
+        return true;
+    }
+    return (dfs(root -> left,val) || dfs(root -> right,val));
+}
+
+
+bool bfs( Node* root, int val){
+    queue <Node*> q;
+    q.push(root);
+    while(!q.empty()){
+        Node* node = q.front();
+        q.pop();
+        cout<<node -> data<<" ";
+        if(node -> data == val){
+            return true;
+        }
+        if(node -> left) q.push(node -> left);
+        if(node -> right) q.push(node -> right);
+    }
+    return false;
+}
+int main() {
+    Node * root = new Node(1);
+    root -> left = new Node(2);
+    root -> right = new Node(3);
+    root -> left -> left = new Node(4);
+    root -> right -> right = new Node(6);
+    root -> right -> left = new Node(5);
+    root -> right -> left -> left = new Node(7);
+    root -> right -> left -> right = new Node(8);
+    bool x = bfs(root, 10);
+    cout<<endl;
+    if(x) cout<<"ELEMENT FOUND";
+    else cout<<" NOT FOUND";
+
+    return 0;
+}
+
+
+
+
+https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+//BFS
+// make a queue
+// push root with 1 height
+// while !q.empty -> push child with currheight + 1; 
+// print maxheight
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        int maxHeight = 1;
+        queue <pair<TreeNode*,int>> q; // node and it's curr height
+        if(!root) return 0;
+        q.push({root,1});
+        while(!q.empty()){
+            maxHeight = max (maxHeight, q.front().second);
+            TreeNode* node = q.front().first;
+            int height = q.front().second;
+            q.pop();
+            if(node -> left) q.push({node -> left, height + 1});
+            if(node -> right) q.push({node -> right, height + 1});
+        }
+        return maxHeight;
+    }
+};
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+
+// DFS
+// maxHeight variable global
+// if node -> null -> return;
+// check if currHeight > maxHeight -> update maxHeight
+// if(child) -> go to child with height + 1;
+class Solution {
+public:
+    int maxHeight = 0;
+
+    void dfs(TreeNode * node, int currHeight){
+        if(!node) return;
+        maxHeight = max (maxHeight, currHeight);
+        if(node -> left) dfs(node -> left, currHeight + 1);
+        if(node -> right) dfs(node -> right, currHeight + 1);
+    }
+
+    int maxDepth(TreeNode* root) {
+        dfs(root,1);
+        return maxHeight;
+    }
+};
+
+
+
+
+
+https://leetcode.com/problems/binary-tree-preorder-traversal/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// make a global vector
+// when on node -> push node -> value in vector
+// apply dfs on left and then dfs on right;
+class Solution {
+public:
+    vector<int> ans;
+    void dfs(TreeNode* node){
+        if(!node) return;
+        ans.push_back(node -> val);
+        dfs(node -> left);
+        dfs(node -> right);
+    }
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        dfs(root);
+        return ans;
+    }
+};
+
+
+
+https://leetcode.com/problems/binary-tree-postorder-traversal/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    vector<int> ans;
+    void dfs( TreeNode* node){
+        if(!node) return;
+        dfs(node -> left);
+        dfs(node -> right);
+        ans.push_back(node ->val);
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        dfs(root);
+        return ans;
+    }
+};
+
+
+
+https://leetcode.com/problems/binary-tree-inorder-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    vector<int> ans;
+    void dfs(TreeNode* node){
+        if(!node) return;
+        dfs(node -> left);
+        ans.push_back(node -> val);
+        dfs(node -> right);
+    }
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        dfs(root);
+        return ans;        
+    }
+};
+
+
+
+
+
+ITERATIVE PREORDER
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// make a global vector
+// when on node -> push node -> value in vector
+// apply dfs on left and then dfs on right;
+class Solution {
+public:
+    vector<int> ans;
+    // void dfs(TreeNode* node){
+    //     if(!node) return;
+    //     ans.push_back(node -> val);
+    //     dfs(node -> left);
+    //     dfs(node -> right);
+    // }
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> stk;
+        if(!root) return ans;
+        stk.push(root);
+        while(!stk.empty()){
+            TreeNode* temp = stk.top();
+            stk.pop();
+            ans.push_back(temp -> val);
+            if(temp -> right) stk.push(temp -> right);
+            if(temp -> left) stk.push(temp -> left);
+        }
+        return ans;
+    }
+};
+
+
+
+
+ITERATIVE INORDER
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> ans;
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack <TreeNode*> stk;
+        // stk.push(root);
+        while(!stk.empty() || root != nullptr){
+            while(root != nullptr){
+                stk.push(root);
+                root = root -> left;
+            }
+            root = stk.top();
+            ans.push_back(stk.top() -> val);
+            root = stk.top() -> right;
+            stk.pop();
+        }
+        return ans;
+    }
+};
+
+
+
+1) Diameter of a tree
+2) max path sum
+3) top view
+4) bottom view
+5) left view
+6) right view
+
+https://leetcode.com/problems/binary-tree-postorder-traversal/
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+// first make 2 stacks -> one to generate output stack(stack1), one to give output(stack2)
+// push root in stack1
+// loop till stack1 is empty
+// push topmost element of stack1 in stack2
+// pop stack1 elemnt
+// push popped elemt left and then right in stack 1
+// pop till stack2 is empty and return ans;
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> stack1,stack2;
+        vector<int> ans;
+        if (!root) return ans;
+        stack1.push(root);
+        while(!stack1.empty()){
+            stack2.push(stack1.top());
+            TreeNode* node = stack1.top();
+            stack1.pop();
+            if(node -> left) stack1.push(node -> left);
+            if(node -> right) stack1.push(node -> right);
+        }
+
+        while(!stack2.empty()){
+            ans.push_back(stack2.top() -> val);
+            stack2.pop();
+        }
+        return ans;
+        
+
+    }
+};
+
+
+
+
+
+
+https://leetcode.com/problems/binary-tree-maximum-path-sum/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int globalAns = INT_MIN;
+    int dfs(TreeNode* node){
+        if(!node) return 0;
+        int left = max(0, dfs(node -> left));
+        int right = max(0, dfs(node -> right));
+        globalAns = max(globalAns, node -> val + left + right);
+        return node -> val + max(left,right);
+    }
+    int maxPathSum(TreeNode* root) {
+        dfs(root);
+        return globalAns;
+    }
+};
+
+
+
+
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+
+
+class Solution {
+  public:
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    vector<int> topView(Node *root) {
+        // code here
+        
+        map<int,Node*> m;
+        queue<pair<Node*, int>> q;
+        q.push({root,0});
+        while(!q.empty()){
+            Node* node = q.front().first;
+            int distance = q.front().second;
+            q.pop();
+            if(m.find(distance) == m.end()){
+                m[distance] = node;
+            }
+            if(node -> left){
+                q.push({node -> left, distance - 1 });
+            }
+            if(node -> right){
+                q.push({node -> right, distance + 1});
+            }
+        }
+        vector<int> ans;
+        for(auto it : m){
+            ans.push_back(it.second -> data);
+        }
+        return ans;
+    }
+};
+
+
+https://www.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// Tree Node
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+
+// } Driver Code Ends
+/* A binary tree node
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+ */
+
+class Solution {
+  public:
+    vector<int> leftView(Node *root) {
+        // code here
+        if(!root) return {};
+        map <int,Node*> m;
+        queue <pair<Node*,int>> q;
+        q.push({root,0});
+        while(!q.empty()){
+            Node* node = q.front().first;
+            int level = q.front().second;
+            q.pop();
+            if(m.find(level) == m.end()){
+                m[level] = node;
+            }
+            if(node -> left) q.push({node -> left,level+1});
+            if(node -> right) q.push({node ->right,level+1});
+        }
+        vector<int> ans;
+        for(auto it : m){
+            ans.push_back(it.second -> data);
+        }
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+// Utility function to create a new Tree Node
+Node* newNode(int val) {
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+
+    return temp;
+}
+
+// Function to Build Tree
+Node* buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;)
+        ip.push_back(str);
+
+    // for(string i:ip)
+    //     cout<<i<<" ";
+    // cout<<endl;
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+int main() {
+    int t;
+    scanf("%d ", &t);
+    while (t--) {
+        string s;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        vector<int> vec = ob.leftView(root);
+        if (vec.size() == 0) {
+            cout << "[]";
+        }
+        for (int x : vec)
+            cout << x << " ";
+        cout << endl;
+
+        cout << "~"
+             << "\n";
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+
+
+
+
+
+
+
+
+
+
+https://leetcode.com/problems/binary-tree-right-side-view/
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        if(!root) return {};
+        map <int,TreeNode *> m;
+        queue <pair<TreeNode *,int>> q;
+        q.push({root,0});
+        while(!q.empty()){
+            TreeNode * node = q.front().first;
+            int level = q.front().second;
+            q.pop();
+            m[level] = node;
+            if(node -> left) q.push({node -> left,level+1});
+            if(node -> right) q.push({node ->right,level+1});
+        }
+        vector<int> ans;
+        for(auto it : m){
+            ans.push_back(it.second -> val);
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+
+
+
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+#define MAX_HEIGHT 100000
+
+// Tree Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+// Utility function to create a new Tree Node
+Node* newNode(int val) {
+    return new Node(val);
+}
+
+// Function to Build Tree
+Node* buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after splitting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;)
+        ip.push_back(str);
+
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+
+// } Driver Code Ends
+/*
+// Tree Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+    
+    
+  public:
+    vector<int> ans;
+    bool isLeaf(Node* node){
+        if(!node) return false;
+        return (!(node -> left) && !(node -> right));
+        
+    }
+    
+    void ldfs(Node* node){
+        if(!node) return;
+        if(isLeaf(node)) return;
+        ans.push_back(node -> data);
+        if(node -> left){
+            ldfs(node -> left);
+        }else{
+            ldfs(node -> right);
+        }
+    }
+    
+    void rdfs(Node* node){
+        if(!node) return;
+        if(isLeaf(node)) return;
+        if(node -> right){
+            rdfs(node -> right);
+        }else{
+            rdfs(node -> left);
+        }
+        ans.push_back(node -> data);
+    }
+    
+    void leaf(Node* node){
+        if(!node) return;
+        if(isLeaf(node)){
+            ans.push_back(node -> data);
+            return;
+        }
+        leaf(node -> left);
+        leaf(node -> right);
+    }
+    
+    vector<int> boundaryTraversal(Node *root) {
+        // code here
+        if(!root) return ans;
+        ans.push_back(root -> data);
+        if(isLeaf(root)) return ans;
+        ldfs(root -> left);
+        leaf(root);
+        rdfs(root -> right);
+        return ans;
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+/* Driver program to test size function */
+int main() {
+    int t;
+    string tc;
+    getline(cin, tc);
+    t = stoi(tc);
+    while (t--) {
+        string s, ch;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        vector<int> res = ob.boundaryTraversal(root);
+        for (int i : res)
+            cout << i << " ";
+        cout << endl;
+
+        cout << "~"
+             << "\n";
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+
+
+
+https://www.geeksforgeeks.org/problems/count-bst-nodes-that-lie-in-a-given-range/1
+
+
+
+
+class Solution {
+  public:
+    int getCount(Node *root, int l, int h) {
+        // your code here
+        if(!root) return 0;
+        if(root -> data < l) return getCount(root -> right,l,h);
+        if(root -> data > h) return getCount(root -> left,l,h);
+        return 1 + getCount(root -> right,l,h) + getCount(root -> left,l,h);
+    }
+};
+
+
+
+
+
+class Solution {
+  public:
+    // Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        // Your code here
+        
+        int n = val.size();
+        vector<pair<double,int>> v(n);
+        for(int i = 0;i< n;i++){
+            v[i] = {(double)val[i] / wt[i],wt[i]};
+            
+        }
+        sort(v.rbegin(),v.rend());
+        int i = 0;
+        double ans = 0;
+        while(capacity != 0 && i != n ){
+            int weight = min(capacity,v[i].second);
+            capacity -= weight;
+            ans += weight * v[i].first;
+            i++;
+        }
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/flood-fill/description/
+
+
+class Solution {
+public:
+    vector<pair<int,int>> dir = {{0,1},{0,-1},{-1,0},{1,0}};
+    bool isValid(int i , int j, int n, int m){
+        return (i>=0 && i <n && j >= 0 && j < m);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& v, int sr, int sc, int color) {
+        int n = v.size();
+        int m = v[0].size();
+        queue<pair<int,int>> q;
+        int original = v[sr][sc];
+        if(original == color) return v;
+        v[sr][sc] = color;
+        q.push({sr,sc});
+        while(!q.empty()){
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+            for(auto it : dir){
+                if(isValid(it.first + i, it.second + j, n , m) && v[i+it.first][j+it.second] == original){
+                    v[it.first + i][it.second + j] = color;
+                    q.push({it.first + i,it.second + j});
+                }
+            }
+        }
+        return v;
+
+
+    }
+};
+
+
+
+https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=detect-cycle-in-an-undirected-graph
+
+
+
+
+
+class Solution {
+  public:
+    // Function to detect cycle in an undirected graph.
+    int flag = 0;
+    void dfs(int i , int p, vector<vector<int>>& adj, vector<bool> &vis){
+       if(flag) return;
+       if(vis[i]){
+           flag = 1;
+           return;
+       }
+       vis[i] = true;
+       for(auto it : adj[i]){
+           if(it != p){
+               dfs(it,i,adj,vis);
+           }
+       }
+       return;
+    }
+    bool isCycle(vector<vector<int>>& adj) {
+        // Code here
+        
+        int n = adj.size();
+        vector<bool> vis(n,false);
+        for(int i =0;i<n;i++){
+            if(!vis[i]){
+                dfs(i,-1,adj,vis);
+            }            
+        }
+        return flag;
+    }
+};
+
+
+
+
+DIJKSTRA
+DSU
+BELLMAN FORD
+WARSHAL
+MST -> KRUSKAL< PRIMS
+
+
+
+
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/topological-sort/1
+
+
+
+class Solution {
+  public:
+    // Function to return list containing vertices in Topological order.
+    vector<int> topologicalSort(vector<vector<int>>& adj) {
+        // Your code here
+        int n = adj.size();
+        vector<int> ans;
+        vector<int> indegree(n,0);
+        for(int i=0;i<n;i++){
+            for(int j =0;j<adj[i].size();j++){
+                indegree[adj[i][j]]++;
+            }
+        }
+        queue<int> q;
+        for(int i = 0 ;i< n;i++){
+            if(indegree[i] == 0){
+                q.push(i);
+                ans.push_back(i);
+            }
+        }
+        
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            for(auto it : adj[curr]){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.push(it);
+                    ans.push_back(it);
+                }
+            }
+        }
+        return ans;
+        
+        
+    }
+};
+
+
+
+https://leetcode.com/problems/01-matrix/description/
+
+
+class Solution {
+public:
+    vector<pair<int,int>> dir = {{0,1},{0,-1},{-1,0},{1,0}};
+    bool isValid(int i , int j, int n, int m){
+        return (i>=0 && i <n && j >= 0 && j < m);
+    }
+    vector<vector<int>> updateMatrix(vector<vector<int>>& v) {
+        int n = v.size();
+        int m = v[0].size();
+        vector<vector<int>> ans(n,vector<int>(m,INT_MAX));
+        queue<pair<pair<int,int>,int>> q;
+        for(int i =0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(v[i][j] == 0){
+                    q.push({{i,j},0});
+                    ans[i][j] = 0;
+                }
+            }
+        }
+        while(!q.empty()){
+            int i =q.front().first.first;
+            int j = q.front().first.second;
+            int dis = q.front().second;
+            q.pop();
+            // ans[i][j] = dis;
+            for(auto it : dir){
+                if(isValid(i+it.first,j+it.second,n,m) && ans[i+it.first][j+it.second] == INT_MAX){
+                    ans[it.first+i][it.second+j] = dis + 1;
+                    q.push({{it.first+i,it.second+j},dis+1});
+                }
+            }
+        }
+        return ans;
+    }
+};https://leetcode.com/problems/course-schedule/description/
+
+
+class Solution {
+public:
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        vector<int> indegree(n,0);
+        for(auto it : pre){
+            adj[it[1]].push_back(it[0]);
+            indegree[it[0]]++;
+        }
+        queue<int> q;
+        vector<int> ans;
+        for(int i = 0;i<n;i++){
+            if(indegree[i] == 0){
+                q.push(i);
+                ans.push_back(i);
+            }
+        }
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            for(auto it : adj[curr]){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.push(it);
+                    ans.push_back(it);
+                }
+            }
+        }
+        if(ans.size() == n){
+            return true;
+        }
+        return false;
+
+    }
+};
+
+
+
+https://leetcode.com/problems/course-schedule-ii/
+
+
+class Solution {
+public:
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        vector<int> indegree(n,0);
+        for(auto it : pre){
+            adj[it[1]].push_back(it[0]);
+            indegree[it[0]]++;
+        }
+        queue<int> q;
+        vector<int> ans;
+        for(int i = 0;i<n;i++){
+            if(indegree[i] == 0){
+                q.push(i);
+                ans.push_back(i);
+            }
+        }
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            for(auto it : adj[curr]){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.push(it);
+                    ans.push_back(it);
+                }
+            }
+        }
+        if(ans.size() == n){
+            return ans;
+        }
+        return {};
+
+
+    }
+};
+
+
+
+
+
+https://leetcode.com/problems/course-schedule/
+
+
+
+
+
